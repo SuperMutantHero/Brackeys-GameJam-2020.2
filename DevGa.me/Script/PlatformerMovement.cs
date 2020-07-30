@@ -7,6 +7,8 @@ public class PlatformerMovement : MonoBehaviour
 	//Speed control items
 	public float speed = 10;
 	public float jumpConstant = 10;
+	public float currentSpeed_H;
+	public float currentSpeed_V;
 
 	//Jump data items
 	public Transform foot;
@@ -19,7 +21,8 @@ public class PlatformerMovement : MonoBehaviour
 	private float inputX;
 	private Rigidbody2D rb;
 
-	private bool isGrounded;
+	[HideInInspector]
+	public bool isGrounded;
 
 	void Start()
 	{
@@ -44,6 +47,8 @@ public class PlatformerMovement : MonoBehaviour
 	void FixedUpdate()
 	{
 		rb.velocity = new Vector2(inputX * speed, rb.velocity.y);
+		currentSpeed_H = rb.velocity.x;
+		currentSpeed_V = rb.velocity.y;
 	}
 
 	void Jump()
