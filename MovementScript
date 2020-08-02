@@ -39,7 +39,7 @@ public class PlatformerMovement : MonoBehaviour
 
 	void OnCollisionEnter2D(Collision2D Col)
 	{
-		if (Col.CompareTag("Ground"))
+		if (Col.collider.CompareTag("Ground"))
 		{
 			isGrounded = true;
 		}
@@ -47,7 +47,7 @@ public class PlatformerMovement : MonoBehaviour
 
 	void OnCollisionExit2D(Collision2D Col)
 	{
-		if (Col.CompareTag("Ground"))
+		if (Col.collider.CompareTag("Ground"))
 		{
 			isGrounded = false;
 		}
