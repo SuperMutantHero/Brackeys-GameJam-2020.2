@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class PlatformerMovement : MonoBehaviour
 {
+	//Speed control items
 	public float speed;
 	public float jumpConstant;
 
-	public KeyCode jumpButton;
+	//Jump data items
+	public Transform foot;
+	public float radius;
+	public LayerMask groundMask;
+
+	//References
+
 
 	private float inputX;
 	private Rigidbody2D rb;
@@ -23,7 +30,9 @@ public class PlatformerMovement : MonoBehaviour
 	{
 		inputX = Input.GetAxisRaw("Horizontal");
 
-		if (Input.GetKeyDown(jumpButton))
+		GroundCheck();
+
+		if (Input.GetKeyDown(KeyCode.Space))
 		{
 			if (isGrounded)
 			{
@@ -34,23 +43,7 @@ public class PlatformerMovement : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		rb.velocity = new Vector2(inputX, rb.velocity.y) * speed;
-	}
-
-	void OnCollisionEnter2D(Collision2D Col)
-	{
-		if (Col.collider.CompareTag("Ground"))
-		{
-			isGrounded = true;
-		}
-	}
-
-	void OnCollisionExit2D(Collision2D Col)
-	{
-		if (Col.collider.CompareTag("Ground"))
-		{
-			isGrounded = false;
-		}
+		rb.velocity = new Vector2(inputX * speed, rb.velocity.y);
 	}
 
 	void Jump()
@@ -58,4 +51,20 @@ public class PlatformerMovement : MonoBehaviour
 		rb.velocity = new Vector2(rb.velocity.x, jumpConstant);
 	}
 
+	void GroundCheck()
+	{
+		if (Physics2D.OverlapCircle(foot.position, radius, groundMask))
+		{
+			isGrounded = true;
+		}
+		else {
+			isGrounded = false;
+		}
+	}
+
+	//Delete it after visualisation, it can cause performance issues
+	void OnDrawGizmos()
+	{
+		Gizmos.DrawSphere(foot.position, radius);
+	}
 }
